@@ -387,13 +387,15 @@ class Hosts(object):
                     'message': 'Cannot read: file {0}.'.format(import_file_path)}
 
     def add(self, entries=None, force=False, allow_address_duplication=False,
-            merge_names=False):
+            allow_name_duplication=False, merge_names=False):
         """
         Add instances of HostsEntry to the instance of Hosts.
         :param entries: A list of instances of HostsEntry
         :param force: Remove matching before adding
         :param allow_address_duplication: Allow using multiple entries
          for same address
+        :param allow_name_duplication: Allow using multiple entries
+         for same name
         :param merge_names: Merge names where address already exists
         :return: The counts of successes and failures
         """
@@ -416,10 +418,13 @@ class Hosts(object):
                 if entry.comment[0] != "#":
                     entry.comment = "# " + entry.comment
                 import_entries.append(entry)
-            elif entry.address in ('0.0.0.0', '127.0.0.1') or allow_address_duplication:
+            elif entry.address in ('0.0.0.0', '127.0.0.1') \
+                    or allow_address_duplication or allow_name_duplication:
                 # Allow duplicates entries for addresses used for adblocking
                 if set(entry.names).intersection(existing_names):
-                    if force:
+                    if allow_name_duplication:
+                        import_entries.append(entry)
+                    elif force:
                         for name in entry.names:
                             self.remove_all_matching(name=name)
                         import_entries.append(entry)
