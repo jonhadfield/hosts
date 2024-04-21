@@ -18,6 +18,17 @@ def test_create_ipv4_instance():
     assert hosts_entry.comment == 'this is a comment'
 
 
+def test_create_ipv4_instance_with_chinese_simplified():
+    """ add an ipv4 type entry """
+    hosts_entry = HostsEntry(entry_type='ipv4', address='1.2.3.4',
+                             names=['example.com', 'example', '例'],
+                             comment='这是一个评论')
+    assert hosts_entry.entry_type == 'ipv4'
+    assert hosts_entry.address == '1.2.3.4'
+    assert hosts_entry.names == ['example.com', 'example', '例']
+    assert hosts_entry.comment == '这是一个评论'
+
+
 def test_str_to_hostentry_ipv4():
     str_entry = HostsEntry.str_to_hostentry(
         '10.10.10.10 example.com example.org example # another comment')

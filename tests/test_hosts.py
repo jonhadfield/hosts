@@ -561,6 +561,17 @@ def test_import_file_returns_duplicate_correctly(tmpdir):
     assert write_result.get('ipv4_entries_written') == 2
 
 
+def test_import_file_with_chinese_simplified(tmpdir):
+    """
+    Test that importing of a file with simplified Chinese characters succeeds
+    """
+    hosts_file = tmpdir.mkdir("etc").join("hosts")
+    hosts_file.write("6.6.6.6\texample.com\n")
+    hosts = Hosts(path=hosts_file.strpath)
+    hosts.import_file(import_file_path=os.path.join("test_files", "hosts3"))
+    assert hosts.exists(address='5.5.5.5', names=['test.com', '测试'])
+
+
 def test_addition_of_ipv6_entry_where_matching_name_exists_and_force_false(tmpdir):
     """
     Test no replacement of an ipv6 entry where the address is different
