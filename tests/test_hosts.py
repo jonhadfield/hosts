@@ -561,17 +561,22 @@ def test_import_file_returns_duplicate_correctly(tmpdir):
     assert write_result.get('ipv4_entries_written') == 2
 
 
-def test_import_file_with_chinese_simplified(tmpdir):
+def test_import_file_with_chinese_simplified(tmp_path):
     """
     Test that importing of a file with simplified Chinese characters succeeds
     """
-    hosts_file = tmpdir.mkdir("etc").join("hosts")
-    hosts_file.write("6.6.6.6\texample.com\n")
-    hosts = Hosts(path=hosts_file.strpath)
+    d = tmp_path / "etc"
+    d.mkdir()
+    hosts_file = d / "hosts"
+    hosts_file.write_text("6.6.6.6\texample.com\n", encoding="utf-8")
+    hosts = Hosts(path=hosts_file.__str__())
 
-    import_file = tmpdir.mkdir("input").join("infile")
-    import_file.write("5.5.5.5\ttest.com 测试\n0.0.0.0\tbob.com\n0.0.0.0\tjane.com\n0.0.0.0\tsimon.com asif.com\n")
-    hosts.import_file(import_file_path=import_file.strpath)
+    d2 = tmp_path / "input"
+    d2.mkdir()
+    import_file = d2 / "infile"
+    import_file.write_text("5.5.5.5\ttest.com 测试\n0.0.0.0\tbob.com\n0.0.0.0\tjane.com\n0.0.0.0\tsimon.com asif.com\n",
+                           encoding="utf-8")
+    hosts.import_file(import_file_path=import_file.__str__())
     assert hosts.exists(address='6.6.6.6', names=['example.com'])
     assert hosts.exists(address='5.5.5.5', names=['test.com', '测试'])
 
