@@ -12,6 +12,7 @@ of the HostsEntry class.
 """
 
 import sys
+import codecs
 
 try:
     from urllib.request import urlopen
@@ -362,7 +363,7 @@ class Hosts(object):
         invalid_count = 0
         if is_readable(import_file_path):
             import_entries = []
-            with open(import_file_path, 'r', encoding='utf-8-sig') as infile:
+            with codecs.open(import_file_path, 'r', encoding='utf-8-sig') as infile:
                 for line in infile:
                     stripped_entry = line.strip()
                     if (not stripped_entry) or (stripped_entry.startswith('#')):
