@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.0.6
+
+- Add option to allow name duplication. Thanks [moonbuggy](https://github.com/moonbuggy).
+
 1.0.5  
 
 - Fix repr and str output. Thanks [trim21](https://github.com/trim21).  

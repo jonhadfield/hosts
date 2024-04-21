@@ -11,6 +11,8 @@ Documentation
 The docs are hosted on RTD (Read The Docs) here:  
 <http://python-hosts.readthedocs.org/en/latest/index.html>.
 
+Changelog available [here](CHANGELOG.md).
+
 Installation
 ------------
 pip install python-hosts
