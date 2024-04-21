@@ -210,7 +210,7 @@ class Hosts(object):
         else:
             output_file_path = self.path
         try:
-            with open(output_file_path, mode) as hosts_file:
+            with codecs.open(output_file_path, mode, 'utf-8-sig') as hosts_file:
                 for written_count, line in enumerate(self.entries):
                     if line.entry_type == 'comment':
                         hosts_file.write(line.comment + "\n")
@@ -490,7 +490,7 @@ class Hosts(object):
         :return: None
         """
         try:
-            with open(self.path, 'r') as hosts_file:
+            with codecs.open(self.path, 'r', 'utf-8-sig') as hosts_file:
                 hosts_entries = [line for line in hosts_file]
                 for hosts_entry in hosts_entries:
                     entry_type = HostsEntry.get_entry_type(hosts_entry)
