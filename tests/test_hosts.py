@@ -568,7 +568,11 @@ def test_import_file_with_chinese_simplified(tmpdir):
     hosts_file = tmpdir.mkdir("etc").join("hosts")
     hosts_file.write("6.6.6.6\texample.com\n")
     hosts = Hosts(path=hosts_file.strpath)
-    hosts.import_file(import_file_path=os.path.join("test_files", "hosts3"))
+
+    import_file = tmpdir.mkdir("input").join("infile")
+    import_file.write("5.5.5.5\ttest.com 测试\n0.0.0.0\tbob.com\n0.0.0.0\tjane.com\n0.0.0.0\tsimon.com asif.com\n")
+    hosts.import_file(import_file_path=import_file.strpath)
+    assert hosts.exists(address='6.6.6.6', names=['example.com'])
     assert hosts.exists(address='5.5.5.5', names=['test.com', '测试'])
 
 
