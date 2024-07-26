@@ -368,7 +368,6 @@ class Hosts(object):
                     if (not stripped_entry) or (stripped_entry.startswith('#')):
                         skipped += 1
                     else:
-                        line = line.partition('#')[0]
                         line = line.rstrip()
                         import_entry = HostsEntry.str_to_hostentry(line)
                         if import_entry:
