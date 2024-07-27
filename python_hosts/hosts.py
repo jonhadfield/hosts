@@ -209,7 +209,7 @@ class Hosts(object):
         else:
             output_file_path = self.path
         try:
-            with open(output_file_path, mode) as hosts_file:
+            with open(output_file_path, mode, encoding='utf-8') as hosts_file:
                 for written_count, line in enumerate(self.entries):
                     if line.entry_type == 'comment':
                         hosts_file.write(line.comment + "\n")
@@ -362,7 +362,7 @@ class Hosts(object):
         invalid_count = 0
         if is_readable(import_file_path):
             import_entries = []
-            with open(import_file_path, 'r') as infile:
+            with open(import_file_path, 'r', encoding='utf-8') as infile:
                 for line in infile:
                     stripped_entry = line.strip()
                     if (not stripped_entry) or (stripped_entry.startswith('#')):
@@ -488,7 +488,7 @@ class Hosts(object):
         :return: None
         """
         try:
-            with open(self.path, 'r') as hosts_file:
+            with open(self.path, 'r', encoding='utf-8') as hosts_file:
                 hosts_entries = [line for line in hosts_file]
                 for hosts_entry in hosts_entries:
                     entry_type = HostsEntry.get_entry_type(hosts_entry)
